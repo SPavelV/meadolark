@@ -1,6 +1,14 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
 
+const fortunes = [
+  "Победи свои страхи, или они победят тебя.",
+  "Рекам нужны истоки.",
+  "Не бойся неведомого.",
+  "Тебя ждет приятный сюрприз.",
+  "Будь проще везде, где только можно.",
+];
+
 const app = express();
 
 app.engine(
@@ -20,7 +28,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.render("about");
+  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+  res.render("about", { fortune: randomFortune });
 });
 
 app.use((req, res) => {
