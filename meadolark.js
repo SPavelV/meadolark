@@ -3,6 +3,14 @@ const exphbs = require('express-handlebars');
 const handlers = require('./lib/handlers');
 
 const app = express();
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
 app.engine(
   '.hbs',
   exphbs({
@@ -28,9 +36,13 @@ app.get('/', handlers.home);
 
 app.get('/about', handlers.about);
 
-// app.use(handlers.notFount);
+app.use(handlers.notFount);
 
-// app.use(handlers.serverError);
+app.use(handlers.serverError);
+
+app.get('/newsletter-signup', handlers.newsletterSignup);
+app.post('/newsletter-signup/process', handlers.newslettersSignupProcess);
+app.get('/newsletter-signup/thank-you', handlers.newslettersSignupThankYou);
 
 if (require.main === module) {
   app.listen(port, () => {
