@@ -4,6 +4,7 @@ const handlers = require("./lib/handlers");
 const multiparty = require("multiparty");
 const cookieParser = require("cookie-parser");
 const credentials = require("./credentials");
+const expressSession = require("express-session");
 
 const app = express();
 
@@ -31,6 +32,14 @@ app.engine(
 
 app.use(cookieParser(credentials.cookieSecret));
 
+app.use(
+  expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: credentials.cookieSecret,
+  })
+);
+
 app.set("view engine", ".hbs");
 
 const port = process.env.PORT || 3000;
@@ -57,8 +66,6 @@ app.post("/contest/vacation-photo/:year/:month", (req, res) => {
     handlers.vacationPhotoContestProcess(req, res, fields, files);
   });
 });
-
-res.
 
 if (require.main === module) {
   app.listen(port, () => {

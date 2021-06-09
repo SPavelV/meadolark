@@ -1,7 +1,7 @@
 {
   "name": "meadowlark",
   "version": "1.0.0",
-  "description": "",
+  "description": "Learning Node Express",
   "main": "meadolark.js",
   "scripts": {
     "test": "jest",
