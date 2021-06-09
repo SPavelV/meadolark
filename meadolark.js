@@ -1,10 +1,11 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const handlers = require('./lib/handlers');
-const multiparty = require('multiparty');
+const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
 const credentials = require('./credentials');
-const expressSession = require('express-session');
+const handlers = require('./lib/handlers');
+const multiparty = require('multiparty');
+const weatherMiddlware = require('./lib/middleware/weather');
 const flashMiddleware = require('./lib/middleware/flash');
 
 const app = express();
@@ -47,6 +48,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/public'));
 
+app.use(weatherMiddlware);
 app.use(flashMiddleware);
 
 app.get('/', handlers.home);
