@@ -2,13 +2,14 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
-const credentials = require('./credentials');
 const handlers = require('./lib/handlers');
 const multiparty = require('multiparty');
 const weatherMiddlware = require('./lib/middleware/weather');
 const flashMiddleware = require('./lib/middleware/flash');
 
 const app = express();
+
+const credentials = require('./credentials');
 
 app.use(express.json());
 app.use(
