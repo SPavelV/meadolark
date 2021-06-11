@@ -89,7 +89,7 @@ app.post('/cart/checkout', (req, res, next) => {
           from: '"Meadowlark Travel": info@meadowlarktravel.com',
           to: cart.billing.email,
           subject: 'Thank You for Book your Trip with Meadowlark Travel',
-          html: html,
+          html: em,
           text: htmlToFormattedText(html),
         })
         .then((info) => {
