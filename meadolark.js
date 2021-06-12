@@ -77,7 +77,8 @@ app.post('/contest/vacation-photo/:year/:month', (req, res) => {
 if (require.main === module) {
   app.listen(port, () => {
     console.log(
-      `Express запущен на http://localhost:${port}` +
+      `Express запущен в режиме ` +
+        `${app.get('env')} на http://localhost:${port}` +
         '; нажмите Ctrl + C для завершения.'
     );
   });
