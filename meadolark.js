@@ -6,10 +6,23 @@ const handlers = require('./lib/handlers');
 const multiparty = require('multiparty');
 const weatherMiddlware = require('./lib/middleware/weather');
 const flashMiddleware = require('./lib/middleware/flash');
+const morgan = require('morgan');
+const fs = require('fs');
+const credentials = require('./credentials');
 
 const app = express();
 
-const credentials = require('./credentials');
+switch (app.get('env')) {
+  case 'development':
+    app.use(require('morgan')('dev'));
+    break;
+  case 'production':
+    const stream = fs.createWriteStream(__dirname + '/access.log', {
+      flags: 'a',
+    });
+    app.use(morgan('combined', { stream }));
+    break;
+}
 
 app.use(express.json());
 app.use(
@@ -77,7 +90,7 @@ app.post('/contest/vacation-photo/:year/:month', (req, res) => {
 if (require.main === module) {
   app.listen(port, () => {
     console.log(
-      `Express запущен в режиме ` +
+      `Express запущен в режиме` +
         `${app.get('env')} на http://localhost:${port}` +
         '; нажмите Ctrl + C для завершения.'
     );
