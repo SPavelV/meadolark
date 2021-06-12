@@ -9,6 +9,7 @@ const flashMiddleware = require('./lib/middleware/flash');
 const morgan = require('morgan');
 const fs = require('fs');
 const credentials = require('./credentials');
+const cluster = require('cluster');
 
 const app = express();
 
@@ -23,6 +24,12 @@ switch (app.get('env')) {
     app.use(morgan('combined', { stream }));
     break;
 }
+
+app.use((req, res, next) => {
+  if (cluster.isWorker)
+    console.log(`Исполнитель ${cluster.worker.id} получил запрос`);
+  next();
+});
 
 app.use(express.json());
 app.use(
