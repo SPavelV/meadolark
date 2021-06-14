@@ -18,21 +18,30 @@ db.on('error', (err) => {
 db.once('open', () => console.log('MongoDB connection established'));
 
 // seed vacation data (if necessary)
-const Vacation = require('./models/vacation.js');
 Vacation.find((err, vacations) => {
   if (err) return console.error(err);
   if (vacations.length) return;
 
   new Vacation({
-    name: 'Hood River Day Trip',
+    name: 'Однодневный тур в Худ-Ривер',
     slug: 'hood-river-day-trip',
-    category: 'Day Trip',
+    category: 'Однодневный тур',
     sku: 'HR199',
     description:
-      'Spend a day sailing on the Columbia and ' +
-      'enjoying craft beers in Hood River!',
+      'Проведите день в плавании по реке ' +
+      'Колумбия и насладитесь сваренным ' +
+      'по традиционным рецептам пивом в Худ-Ривер!',
+    location: {
+      search: 'Худ-Ривер, Орегон, США',
+    },
     price: 99.95,
-    tags: ['day trip', 'hood river', 'sailing', 'windsurfing', 'breweries'],
+    tags: [
+      'однодневный тур',
+      'худ-ривер',
+      'плавание',
+      'виндсерфинг',
+      'пивоварни',
+    ],
     inSeason: true,
     maximumGuests: 16,
     available: true,
@@ -40,33 +49,49 @@ Vacation.find((err, vacations) => {
   }).save();
 
   new Vacation({
-    name: 'Oregon Coast Getaway',
+    name: 'Отдых в Орегон Коуст',
     slug: 'oregon-coast-getaway',
-    category: 'Weekend Getaway',
+    category: 'Отдых на выходных',
     sku: 'OC39',
-    description: 'Enjoy the ocean air and quaint coastal towns!',
+    description:
+      'Насладитесь океанским воздухом ' +
+      'и причудливыми прибрежными городками!',
+    location: {
+      search: 'Кэннон Бич, Орегон, США',
+    },
     price: 269.95,
-    tags: ['weekend getaway', 'oregon coast', 'beachcombing'],
+    tags: ['отдых на выходных', 'орегон коуст', 'прогулки по пляжу'],
     inSeason: false,
     maximumGuests: 8,
     available: true,
     packagesSold: 0,
   }).save();
-
   new Vacation({
-    name: 'Rock Climbing in Bend',
+    name: 'Скалолазание в Бенде',
     slug: 'rock-climbing-in-bend',
-    category: 'Adventure',
+    category: 'Приключение',
     sku: 'B99',
-    description: 'Experience the thrill of climbing in the high desert.',
+    description:
+      'Пощекочите себе нервы горным ' +
+      'восхождением на пустынной возвышенности.',
+    location: {
+      search: 'Бенд, Орегон, США',
+    },
     price: 289.95,
-    tags: ['weekend getaway', 'bend', 'high desert', 'rock climbing'],
+    tags: [
+      'отдых на выходных',
+      'бенд',
+      'пустынная возвышенность',
+      'скалолазание',
+    ],
     inSeason: true,
     requiresWaiver: true,
     maximumGuests: 4,
     available: false,
     packagesSold: 0,
-    notes: 'The tour guide is currently recovering from a skiing accident.',
+    notes:
+      'Гид по данному туру в настоящий момент ' +
+      'восстанавливается после лыжной травмы.',
   }).save();
 });
 
@@ -84,39 +109,6 @@ module.exports = {
 };
 
 module.exports = {
-  getVacations: async (options = {}) => {
-    const vacations = [
-      {
-        name: 'Однодневный тур в Худ-Ривер',
-        slug: 'hood-river-day-trip',
-        category: 'Однодневный тур',
-        sku: 'HR199',
-        description:
-          'Проведите день в плавании по реке ' +
-          'Колумбия и насладитесь сваренным ' +
-          'по традиционным рецептам пивом в Худ-Ривер!',
-        location: {
-          search: 'Худ-Ривер, Орегон, США',
-        },
-        price: 99.95,
-        tags: [
-          'однодневный тур',
-          'худ-ривер',
-          'плавание',
-          'виндсерфинг',
-          'пивоварни',
-        ],
-        inSeason: true,
-        maximumGuests: 16,
-        available: true,
-        packagesSold: 0,
-      },
-    ];
-    if (options.available !== undefined)
-      return vacations.filter(
-        ({ available }) => available === options.available
-      );
-    return vacations;
-  },
+  getVacations: async (options = {}) => Vacation.find(options),
   addVacationInSeasonListener: async (email, sku) => {},
 };
