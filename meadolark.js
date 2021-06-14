@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const fs = require('fs');
 const credentials = require('./credentials');
 const cluster = require('cluster');
+require('./db');
 
 const app = express();
 
