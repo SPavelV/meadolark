@@ -1,5 +1,6 @@
 const credentials = require('./credentials');
 const Vacation = require('./models/vacation');
+const VacationInSeasonListener = require('./models/vacationInSeasonListener');
 
 // initialize database connection
 const mongoose = require('mongoose');
@@ -94,8 +95,6 @@ Vacation.find((err, vacations) => {
       'восстанавливается после лыжной травмы.',
   }).save();
 });
-
-const VacationInSeasonListener = require('./models/vacationInSeasonListener');
 
 module.exports = {
   getVacations: async (options = {}) => Vacation.find(options),
