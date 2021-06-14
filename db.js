@@ -1,4 +1,5 @@
 const credentials = require('./credentials');
+const Vacation = require('./models/vacation');
 
 // initialize database connection
 const mongoose = require('mongoose');
