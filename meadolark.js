@@ -94,6 +94,11 @@ app.post('/contest/vacation-photo/:year/:month', (req, res) => {
   });
 });
 
+app.use((err, req, res, next) => {
+  console.error(err.message, err.stack);
+  app.status(500).render('500');
+});
+
 if (require.main === module) {
   app.listen(port, () => {
     console.log(
